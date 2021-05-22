@@ -1,3 +1,5 @@
+// indexing for the app
+
 const {initModel} = require('./model')
 const {update} = require('./update')
 const {view} = require('./view')

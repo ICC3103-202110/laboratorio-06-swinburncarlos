@@ -1,9 +1,8 @@
+// viewing aspect for the app
+
 const figlet = require('figlet')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
-const {model} = require ('./model')
-const prompt = require('prompt-sync')({sigint: true})
-const {printTable} = require('./model')
 
 function getTitle(){
     return chalk.yellow(
@@ -18,9 +17,14 @@ function getTitle(){
 }
 
 function getTable(model){
-    const {BillAmount} = model
+    const {LeftValue, LeftUnit, RightValue, RightUnit} = model
     return [
-        {'Left Value': model.LeftValue, 'Left Unit': model.LeftUnit, 'Right Value': model.RightValue, 'Right Unit': model.RightUnit}
+        {
+            'Left Value': LeftValue,
+            'Left Unit': LeftUnit,
+            'Right Value': RightValue,
+            'Right Unit': RightUnit
+        }
     ]
 }
 
@@ -32,14 +36,54 @@ function view(model){
     }
 }
 
-function inputForm(model){
-    //const {input} = model
-    return inquirer.prompt([
-        { name: '?', type: 'input', message: 'Left Temperature is source?', default: model.LeftTempSource },
-        { name: '?', type: 'input', message: 'Temperature value to convert?', default: model.TempValue },
-        { name: '?', type: 'input', message: 'From?', default: model.From },
-        { name: '?', type: 'input', message: 'To?', default: model.To }
-    ])
+function listForm1(model){
+    const {input} = model
+    const message = 'Left Temperature is source? (yes/no)'
+    const choices = ['yes', 'no']
+    return inquirer.prompt({
+        name: 'first_input',
+        type: 'list',
+        message: message,
+        default: input,
+        choices: choices
+    })
+}
+
+function listForm2(model){
+    const {input} = model
+    const message = 'Temperature value to convert? (enter a number)'
+    return inquirer.prompt({
+        name: 'second_input',
+        type: 'input',
+        message: message,
+        defualt: input,
+    })
+}
+
+function listForm3(model){
+    const {input} = model
+    const message = 'From?'
+    const choices = ['Celcius', 'Farenheit', 'Kelvin']
+    return inquirer.prompt({
+        name: 'third_input',
+        type: 'list',
+        message: message,
+        default: input,
+        choices: choices
+    })
+}
+
+function listForm4(model){
+    const {input} = model
+    const message = 'To?'
+    const choices = ['Celcius', 'Farenheit', 'Kelvin']
+    return inquirer.prompt({
+        name: 'fourth_input',
+        type: 'list',
+        message: message,
+        default: input,
+        choices: choices
+    })
 }
 
 // Get actual console view
@@ -52,7 +96,11 @@ function view(model){
 
 module.exports = {
     view,
-    inputForm
+    //inputForm,
+    listForm1,
+    listForm2,
+    listForm3,
+    listForm4
     //getTitle
 }
 
